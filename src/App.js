@@ -1,32 +1,29 @@
 import "./App.css";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 function App() {
   const [data, setData] = useState([]);
   const [id, setId] = useState();
-  console.log("id", id);
+  const url = `https://aws-server-uk80.onrender.com/api/v1/products`;
 
   useEffect(() => {
     async function fetchData() {
-      const url = `https://aws-server-uk80.onrender.com/api/v1/products`;
-
-      await fetch(url)
-        .then((response) => response.json())
-        .then((data) => {
-          setData(data);
-          setId(data[0]?.item_id);
-          return data;
-        })
-        .catch((error) => console.log(error));
+      const response = await axios.get(url);
+      console.log("Axios data", response.data);
+      setData(response.data);
+      setId(response.data[0]?.item_id);
     }
-
     fetchData();
-  }, []);
+  }, [url]);
 
-  console.log(data);
+  // let object = data?.find((dt) => {
+  //   return dt.item_id === id;
+  // });
 
-  let object = data?.find((dt) => {
+  console.log("data", data);
+
+  let object = data.find((dt) => {
     return dt.item_id === id;
   });
   console.log("object", object);
@@ -42,7 +39,7 @@ function App() {
           <div className="items">
             {/* Links */}
             <ul className="">
-              {data.map((item) => {
+              {data?.map((item) => {
                 return (
                   <li onClick={() => setId(item.item_id)} key={item.item_id}>
                     {item.item_name}
@@ -56,7 +53,7 @@ function App() {
       <div>
         {/* Body */}
         <table className="table">
-          {Object.keys(object).map((key) => {
+          {Object.keys(object)?.map((key) => {
             return (
               <tr className="table_details">
                 <td className="item_name">{key}</td>
