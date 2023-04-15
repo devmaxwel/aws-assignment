@@ -17,11 +17,7 @@ function App() {
     fetchData();
   }, [url]);
 
-  // let object = data?.find((dt) => {
-  //   return dt.item_id === id;
-  // });
-
-  console.log("data", data);
+  console.log("data", id);
 
   let object = data.find((dt) => {
     return dt.item_id === id;
@@ -52,16 +48,18 @@ function App() {
       </header>
       <div>
         {/* Body */}
-        <table className="table">
-          {Object.keys(object)?.map((key) => {
-            return (
-              <tr className="table_details">
-                <td className="item_name">{key}</td>
-                <td className="item_details">{object[key]}</td>
-              </tr>
-            );
-          })}
-        </table>
+        {object && (
+          <table className="table">
+            {Object.keys(object)?.map((key) => {
+              return (
+                <tr className="table_details">
+                  <td className="item_name">{key}</td>
+                  <td className="item_details">{object[key]}</td>
+                </tr>
+              );
+            })}
+          </table>
+        )}
       </div>
     </div>
   );
