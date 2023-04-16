@@ -11,15 +11,6 @@ const Home = () => {
     const [active, setActive] = useState(null);
     const [display, setDisplay] = useState("products");
 
-
-    const user = localStorage.getItem("user");
-
-    useEffect(() => {
-        if (!user) {
-            window.location.href = "/login";
-        }
-    }, [user])
-
     const [supplierName, setSupplierName] = useState("");
     const url = `https://aws-server-uk80.onrender.com/api/v1/products`;
 
@@ -91,11 +82,6 @@ const Home = () => {
 
     console.log("Supplier Name", supplierName);
     console.log("Find Supplier Products", findSupplierProducts);
-
-    const handleClick = () => {
-        localStorage.removeItem("user");
-        window.location.href = "/login";
-    }
     return (
         <div className="App">
             <header>
@@ -129,10 +115,6 @@ const Home = () => {
                                 CUSTOMERS
                             </li>
                         </ul>
-                    </div>
-                    <div>
-                        {/* Logout */}
-                        <button onClick={() => handleClick()} className='signout-btn'>SIGN OUT</button>
                     </div>
                 </nav>
             </header>
