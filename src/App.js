@@ -7,6 +7,7 @@ function App() {
   const [suppliers, setSuppliers] = useState([]);
   const [customers, setCustomers] = useState([]);
   const [employees, setEmployees] = useState([]);
+  const [active, setActive] = useState(null);
   const [display, setDisplay] = useState("products");
 
   const [supplierName, setSupplierName] = useState("");
@@ -29,6 +30,7 @@ function App() {
       console.log("Axios Suppliers data", response.data);
       setSuppliers(response.data);
       setSupplierName(response.data[0]?.supplier_name);
+      setActive(response.data[0]?.supplier_name);
     }
     fetchData();
   }, [url]);
@@ -62,6 +64,12 @@ function App() {
   const handleProductsDisplay = (supplier) => {
     setDisplay("products");
     setSupplierName(supplier.supplier_name);
+    setActive(supplier.supplier_name);
+  };
+
+  const handleDisplayCustomers = () => {
+    setDisplay("customers");
+    setActive("customers");
   };
 
   function getItemNamefromId(id) {
@@ -88,6 +96,9 @@ function App() {
               {suppliers?.map((supplier) => {
                 return (
                   <li
+                    className={
+                      active === supplier.supplier_name ? "active" : ""
+                    }
                     onClick={() => handleProductsDisplay(supplier)}
                     key={supplier.supplier_id}
                   >
@@ -96,8 +107,10 @@ function App() {
                 );
               })}
               <li
-                onClick={() => setDisplay("customers")}
-                className="extra-link"
+                onClick={() => handleDisplayCustomers()}
+                className={
+                  active === "customers" ? "extra-link active" : "extra-link"
+                }
               >
                 CUSTOMERS
               </li>
