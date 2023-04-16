@@ -91,6 +91,11 @@ const Home = () => {
 
     console.log("Supplier Name", supplierName);
     console.log("Find Supplier Products", findSupplierProducts);
+
+    const handleClick = () => {
+        localStorage.removeItem("user");
+        window.location.href = "/login";
+    }
     return (
         <div className="App">
             <header>
@@ -124,6 +129,10 @@ const Home = () => {
                                 CUSTOMERS
                             </li>
                         </ul>
+                    </div>
+                    <div>
+                        {/* Logout */}
+                        <button onClick={() => handleClick()} className='signout-btn'>SIGN OUT</button>
                     </div>
                 </nav>
             </header>
