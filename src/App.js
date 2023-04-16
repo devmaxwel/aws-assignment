@@ -4,7 +4,12 @@ import axios from "axios";
 
 function App() {
   const [data, setData] = useState([]);
-  const [id, setId] = useState();
+  const [suppliers, setSuppliers] = useState([]);
+  const [customers, setCustomers] = useState([]);
+  const [employees, setEmployees] = useState([]);
+  const [display, setDisplay] = useState("products");
+
+  const [supplierName, setSupplierName] = useState("");
   const url = `https://aws-server-uk80.onrender.com/api/v1/products`;
 
   useEffect(() => {
@@ -12,17 +17,62 @@ function App() {
       const response = await axios.get(url);
       console.log("Axios data", response.data);
       setData(response.data);
-      setId(response.data[0]?.item_id);
     }
     fetchData();
   }, [url]);
 
-  console.log("data", id);
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get(
+        `https://aws-server-uk80.onrender.com/api/v1/suppliers`
+      );
+      console.log("Axios Suppliers data", response.data);
+      setSuppliers(response.data);
+      setSupplierName(response.data[0]?.supplier_name);
+    }
+    fetchData();
+  }, [url]);
 
-  let object = data.find((dt) => {
-    return dt.item_id === id;
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get(
+        `https://aws-server-uk80.onrender.com/api/v1/customers`
+      );
+      console.log("Axios Customers data", response.data);
+      setCustomers(response.data);
+    }
+    fetchData();
+  }, [url]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await axios.get(
+        `https://aws-server-uk80.onrender.com/api/v1/employees`
+      );
+      console.log("Axios Employees Data", response.data);
+      setEmployees(response.data);
+    }
+    fetchData();
+  }, [url]);
+
+  const findSupplierProducts = data.filter((item) => {
+    return item.supplier_name === supplierName;
   });
-  console.log("object", object);
+
+  const handleProductsDisplay = (supplier) => {
+    setDisplay("products");
+    setSupplierName(supplier.supplier_name);
+  };
+
+  function getItemNamefromId(id) {
+    const items = data.filter((item) => {
+      return item.item_id === id;
+    });
+    return items[0].item_name;
+  }
+
+  console.log("Supplier Name", supplierName);
+  console.log("Find Supplier Products", findSupplierProducts);
 
   return (
     <div className="App">
@@ -30,37 +80,97 @@ function App() {
         <nav className="nav">
           <div className="log0">
             {/* Logo */}
-            Ak_Rosh_Sree
+            <h1>ASR</h1>
           </div>
           <div className="items">
             {/* Links */}
             <ul className="">
-              {data?.map((item) => {
+              {suppliers?.map((supplier) => {
                 return (
-                  <li onClick={() => setId(item.item_id)} key={item.item_id}>
-                    {item.item_name}
+                  <li
+                    onClick={() => handleProductsDisplay(supplier)}
+                    key={supplier.supplier_id}
+                  >
+                    {supplier.supplier_name}
                   </li>
                 );
               })}
+              <li
+                onClick={() => setDisplay("customers")}
+                className="extra-link"
+              >
+                CUSTOMERS
+              </li>
             </ul>
           </div>
         </nav>
       </header>
-      <div>
-        {/* Body */}
-        {object && (
-          <table className="table">
-            {Object.keys(object)?.map((key) => {
-              return (
-                <tr className="table_details">
-                  <td className="item_name">{key}</td>
-                  <td className="item_details">{object[key]}</td>
-                </tr>
-              );
-            })}
+      {display === "products" && (
+        <div>
+          {/* Body */}
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">Item_Name</th>
+                <th scope="col">Item_Price</th>
+                <th scope="col">Item_Supplier</th>
+                <th scope="col">Item_Inventory</th>
+                <th scope="col">Item_Qty</th>
+              </tr>
+            </thead>
+            {findSupplierProducts && (
+              <tbody>
+                {findSupplierProducts.map((products) => {
+                  return (
+                    <tr key={products.item_id}>
+                      <th scope="row">{products.item_name}</th>
+                      <td>{products.item_price}</td>
+                      <td>{products.supplier_name}</td>
+                      <td>{products.inventory_address}</td>
+                      <td>{products.item_quantity}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            )}
           </table>
-        )}
-      </div>
+        </div>
+      )}
+      {display === "customers" && (
+        <div>
+          {/* Customers Body */}
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th scope="col">Number</th>
+                <th scope="col">Customer_Name</th>
+                <th scope="col">Email</th>
+                <th scope="col">Address</th>
+                <th scope="col">Item_Bought</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Purchase_Date</th>
+              </tr>
+            </thead>
+            {customers && (
+              <tbody>
+                {customers.map((customer, index) => {
+                  return (
+                    <tr>
+                      <th scope="row">{index + 1}</th>
+                      <td>{customer.customer_name}</td>
+                      <td>{customer.email}</td>
+                      <td>{customer.address}</td>
+                      <td>{getItemNamefromId(customer.item_id)}</td>
+                      <td>{customer.purchase_quantity}</td>
+                      <td>{customer.purchase_date}</td>
+                    </tr>
+                  );
+                })}
+              </tbody>
+            )}
+          </table>
+        </div>
+      )}
     </div>
   );
 }

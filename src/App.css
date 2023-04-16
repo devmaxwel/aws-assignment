@@ -1,5 +1,5 @@
 .nav {
-  background-color: gray;
+  background-color: black;
   color: #fff;
   padding: 10px;
   text-align: center;
@@ -23,29 +23,10 @@
   cursor: pointer;
 }
 
-.table {
-  padding-top: 10px;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
-  margin: 10px;
-}
-
-.table_details {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  align-items: center;
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #000;
-}
-
-.item_name {
-  font-weight: 700;
-}
-
-.item_details {
-  color: blue;
+.extra-link {
+  margin: 0 10px;
+  cursor: pointer;
+  color: #fff;
+  text-decoration: none;
+  color: #658cbb;
 }
