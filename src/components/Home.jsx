@@ -119,7 +119,11 @@ const Home = () => {
                 </nav>
             </header>
             {display === "products" && (
+
                 <div>
+                    <div>
+                        <span className="text-center">List of Products Acquisitioned from {supplierName} Suppliers</span>
+                    </div>
                     {/* Body */}
                     <table class="table">
                         <thead>
