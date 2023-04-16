@@ -32,3 +32,48 @@
   text-decoration: none;
   color: #658cbb;
 }
+
+.login-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.fields {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.header-text {
+  text-align: center;
+  font-size: 30px;
+  font-weight: bold;
+  color: #000;
+  margin: 10px 0;
+}
+
+.fields input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-bottom: 1px solid #658cbb;
+  outline: none;
+  font-size: 16px;
+  color: #658cbb;
+  border-radius: 10px;
+}
+
+.login-background {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 30%;
+  height: 50%;
+  background: #658cbb;
+  transform: translate(-50%, -50%);
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
+}
